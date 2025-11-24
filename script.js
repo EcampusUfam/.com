@@ -5,11 +5,12 @@ const WORKER_URL = 'https://api.autenticacaohistoricoufam.com.br';
 const messageElement = document.getElementById('message');
 const captchaDisplay = document.getElementById('captcha_display');
 const authForm = document.getElementById('authForm');
+const buscarBtn = document.getElementById('buscar-btn'); // Captura o botão para desabilitar
 
 let currentCaptchaText = '';
 
 // Função para gerar um código CAPTCHA aleatório (6 caracteres)
-function generateCaptcha() {
+function function generateCaptcha() {
     const chars = '0123456789abcdefghijklmnopqrstuvwxyz';
     let captcha = '';
     for (let i = 0; i < 6; i++) {
@@ -31,19 +32,29 @@ document.addEventListener('DOMContentLoaded', displayNewCaptcha);
 authForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
+    // Captura os dados de entrada (todos os campos são obrigatórios via HTML 'required')
     const codigo = document.getElementById('codigo').value.trim();
+    const data = document.getElementById('data').value.trim();
+    const hora = document.getElementById('hora').value.trim();
     const validationCode = document.getElementById('validation_code').value.trim().toLowerCase();
     
+    // Desabilita o botão para evitar cliques duplos durante o processamento
+    buscarBtn.disabled = true;
+
     messageElement.textContent = 'Buscando...';
     messageElement.style.color = 'black';
 
     // 1. Verificação do CAPTCHA
     if (validationCode !== currentCaptchaText) {
         messageElement.style.color = 'red';
-        messageElement.textContent = 'Código de Validação incorreto. Tente novamente.';
+        messageElement.textContent = 'Arquivo não encontrado, verifique as informações e tente novamente!';
         displayNewCaptcha(); 
+        buscarBtn.disabled = false; // Habilita o botão após falha
         return;
     }
+
+    // A lógica de verificação dos campos Data/Hora deve ser feita no Worker
+    // Mas como o Worker só verifica o 'code', a falha do usuário será tratada abaixo
 
     // 2. Chamada ao Cloudflare Worker (API)
     const apiCallUrl = `${WORKER_URL}?code=${codigo}`;
@@ -51,27 +62,38 @@ authForm.addEventListener('submit', function(event) {
     fetch(apiCallUrl)
         .then(response => {
             if (response.ok && response.redirected) {
-                // Sucesso: Redirecionamento para o PDF
+                // SUCESSO na autenticação (o Worker encontrou o código)
+
+                // 2.1. Exibe a mensagem de sucesso (verde)
                 messageElement.style.color = 'green';
-                messageElement.textContent = 'Documento autenticado! O download começará em breve.';
-                window.open(response.url, '_blank'); 
-            } else if (!response.ok) {
-                // Falha: Código inválido
+                messageElement.textContent = 'Documento Autenticado!';
+                
+                // 2.2. Atraso de 2 segundos antes de liberar o download
+                setTimeout(() => {
+                    // Abre o PDF em uma nova aba
+                    window.open(response.url, '_blank'); 
+                    messageElement.textContent = 'Documento Autenticado! Download liberado.';
+                    displayNewCaptcha(); // Novo CAPTCHA
+                    buscarBtn.disabled = false; // Habilita o botão
+                }, 2000); // 2000 milissegundos = 2 segundos
+
+            } else {
+                // FALHA na autenticação (código inválido ou erro do Worker)
                 response.text().then(text => {
                     messageElement.style.color = 'red';
-                    messageElement.textContent = text || 'Falha na autenticação. Código ou dados inválidos.';
+                    // Mensagem de erro padrão conforme solicitado
+                    messageElement.textContent = 'Arquivo não encontrado, verifique as informações e tente novamente!';
                 });
-            } else {
-                messageElement.style.color = 'red';
-                messageElement.textContent = 'Ocorreu um erro inesperado na comunicação.';
+                displayNewCaptcha(); // Novo CAPTCHA após o erro
+                buscarBtn.disabled = false; // Habilita o botão
             }
-            displayNewCaptcha(); // Novo CAPTCHA após o envio
         })
         .catch(error => {
-            // Este catch resolve o erro de CORS ou DNS do Worker (erro de conexão)
+            // ERRO de Conexão com o servidor
             messageElement.style.color = 'red';
             messageElement.textContent = 'Erro de conexão com o servidor de autenticação.';
             console.error('Fetch error:', error);
             displayNewCaptcha();
+            buscarBtn.disabled = false; // Habilita o botão
         });
 });
