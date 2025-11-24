@@ -7,55 +7,39 @@
     <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <div class="logo">
-                <span class="e">e</span>Campus UFAM
+    <div class="container">
+        <h2>Autenticação de documentos</h2>
+
+        <form id="authForm">
+            <div class="form-group">
+                <label for="codigo">Código:</label>
+                <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034" value="4165d36034">
             </div>
-        </div>
-    </header>
 
-    <main>
-        <div class="auth-container">
-            <h1>Autenticação de documentos</h1>
+            <div class="form-group">
+                <label for="data">Data:</label>
+                <input type="text" id="data" name="data" placeholder="24/11/2025" value="24/11/2025" disabled>
+            </div>
+            
+            <div class="form-group">
+                <label for="hora">Hora:</label>
+                <input type="text" id="hora" name="hora" placeholder="15:28:14" value="15:28:14" disabled>
+            </div>
 
-            <form id="authForm">
-                <div class="input-group">
-                    <label for="codigo">Código:</label>
-                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034" value="4165d36034">
-                </div>
-
-                <div class="input-group">
-                    <label for="data">Data:</label>
-                    <input type="text" id="data" name="data" placeholder="24/11/2025" value="24/11/2025" disabled>
-                </div>
+            <div class="form-group captcha-group">
+                <label for="validation_code">Código de Validação:</label>
                 
-                <div class="input-group">
-                    <label for="hora">Hora:</label>
-                    <input type="text" id="hora" name="hora" placeholder="15:28:14" value="15:28:14" disabled>
-                </div>
-
-                <div class="input-group captcha-group">
-                    <label for="validation_code">Código de Validação:</label>
-                    
-                    <div class="captcha-box">
-                        <div id="captcha_display" class="captcha-simulado">
-                            </div>
-                        <input type="text" id="validation_code" name="validation_code" required placeholder="Digite o código acima">
+                <div id="captcha_display" style="font-size: 24px; font-weight: bold; color: #333; padding: 5px 10px; border: 1px solid #ccc; display: inline-block; background-color: #f7f7f7; letter-spacing: 3px;">
                     </div>
-                </div>
 
-                <button type="submit" class="btn-buscar">Buscar</button>
-                
-                <p id="message" class="message"></p> 
-            </form>
-        </div>
-    </main>
+                <input type="text" id="validation_code" name="validation_code" required placeholder="Digite o código acima">
+            </div>
 
-    <footer>
-        <hr>
-        UFAM - Universidade Federal do Amazonas
-    </footer>
+            <button type="submit" id="buscar-btn">Buscar</button>
+            
+            <p id="message" class="error-message"></p> 
+        </form>
+    </div>
 
     <script src="script.js"></script>
 </body>
