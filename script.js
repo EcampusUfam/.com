@@ -10,7 +10,7 @@ const buscarBtn = document.getElementById('buscar-btn');
 authForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    // Captura o Código. Os campos Data e Hora são apenas visuais (required no HTML).
+    // Captura o Código. Os campos Data e Hora são apenas visuais e a lógica de validação deles fica no back-end.
     const codigo = document.getElementById('codigo').value.trim();
     
     // Inicia o processamento
@@ -25,7 +25,7 @@ authForm.addEventListener('submit', function(event) {
     fetch(apiCallUrl)
         .then(response => {
             if (response.ok && response.redirected) {
-                // SUCESSO: O Worker encontrou o código e redirecionou para o PDF.
+                // SUCESSO: O Worker encontrou o código.
 
                 // Exibe a mensagem de sucesso (verde)
                 messageElement.style.color = 'green';
