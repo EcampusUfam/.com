@@ -22,17 +22,17 @@
             <form id="authForm">
                 <div class="input-group">
                     <label for="codigo">Código:</label>
-                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034">
+                    <input type="text" id="codigo" name="codigo" required>
                 </div>
 
                 <div class="input-group">
                     <label for="data">Data:</label>
-                    <input type="text" id="data" name="data" required placeholder="Ex: 24/11/2025">
+                    <input type="text" id="data" name="data" required maxlength="10">
                 </div>
                 
                 <div class="input-group">
                     <label for="hora">Hora:</label>
-                    <input type="text" id="hora" name="hora" required placeholder="Ex: 15:28:14">
+                    <input type="text" id="hora" name="hora" required maxlength="8">
                 </div>
 
                 <button type="submit" class="btn-buscar" id="buscar-btn">Buscar</button>
