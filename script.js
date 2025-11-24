@@ -1,1 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Autenticação de Documentos</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="e">e</span>Campus UFAM
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <h1>Autenticação de documentos</h1>
+
+            <form id="authForm">
+                <div class="input-group">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034">
+                </div>
+
+                <div class="input-group">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" required placeholder="Ex: 24/11/2025">
+                </div>
+                
+                <div class="input-group">
+                    <label for="hora">Hora:</label>
+                    <input type="text" id="hora" name="hora" required placeholder="Ex: 15:28:14">
+                </div>
+
+                <button type="submit" class="btn-buscar" id="buscar-btn">Buscar</button>
+                
+                <p id="message" class="message"></p> 
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <hr>
+        UFAM - Universidade Federal do Amazonas
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
 
