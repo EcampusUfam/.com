@@ -6,8 +6,10 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
     const messageElement = document.getElementById('message');
     
     // Configurações
-    // URL do seu Worker (API de autenticação).
-    const WORKER_URL = 'https://autenticacaoufam.gabriel-navarro-rn7.workers.dev'; 
+    // URL FINAL do seu Worker, usando o subdomínio oficial do seu site.
+    const WORKER_URL = 'https://api.autenticacaohistoricoufam.com.br'; 
+    
+    // O texto exato da imagem CAPTCHA
     const captchaText = "9zjicg"; 
 
     messageElement.textContent = 'Buscando...';
@@ -20,17 +22,21 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
     }
 
     // 2. Chamada ao Cloudflare Worker
+    // Ex: https://api.autenticacaohistoricoufam.com.br?code=75fbf6cbf6
     const apiCallUrl = `${WORKER_URL}?code=${codigo}`;
 
     fetch(apiCallUrl)
         .then(response => {
             if (response.ok && response.redirected) {
-                // Sucesso
+                // Sucesso: O Worker liberou o download.
                 messageElement.style.color = 'green';
                 messageElement.textContent = 'Documento autenticado! O download começará em breve ou clique no link abaixo.';
+                
+                // Abre o arquivo em uma nova aba para iniciar o download
                 window.open(response.url, '_blank'); 
+
             } else if (!response.ok) {
-                // Falha
+                // Falha: O Worker retornou um erro (código inválido).
                 response.text().then(text => {
                     messageElement.style.color = 'red';
                     messageElement.textContent = text || 'Falha na autenticação. Código ou dados inválidos.';
