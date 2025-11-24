@@ -22,30 +22,20 @@
             <form id="authForm">
                 <div class="input-group">
                     <label for="codigo">Código:</label>
-                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034" value="4165d36034">
+                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034">
                 </div>
 
                 <div class="input-group">
                     <label for="data">Data:</label>
-                    <input type="text" id="data" name="data" placeholder="24/11/2025" value="24/11/2025" disabled>
+                    <input type="text" id="data" name="data" required placeholder="Ex: 24/11/2025">
                 </div>
                 
                 <div class="input-group">
                     <label for="hora">Hora:</label>
-                    <input type="text" id="hora" name="hora" placeholder="15:28:14" value="15:28:14" disabled>
+                    <input type="text" id="hora" name="hora" required placeholder="Ex: 15:28:14">
                 </div>
 
-                <div class="input-group captcha-group">
-                    <label for="validation_code">Código de Validação:</label>
-                    
-                    <div class="captcha-box">
-                        <div id="captcha_display" class="captcha-simulado">
-                             </div>
-                        <input type="text" id="validation_code" name="validation_code" required placeholder="Digite o código acima">
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-buscar">Buscar</button>
+                <button type="submit" class="btn-buscar" id="buscar-btn">Buscar</button>
                 
                 <p id="message" class="message"></p> 
             </form>
