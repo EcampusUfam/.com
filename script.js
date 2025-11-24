@@ -1,58 +1,52 @@
-// A URL FINAL e CORRETA do seu Worker
-const WORKER_URL = 'https://api.autenticacaohistoricoufam.com.br'; 
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Autenticação de Documentos</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="e">e</span>Campus UFAM
+            </div>
+        </div>
+    </header>
 
-// Elementos HTML
-const messageElement = document.getElementById('message');
-const authForm = document.getElementById('authForm');
-const buscarBtn = document.getElementById('buscar-btn');
+    <main>
+        <div class="auth-container">
+            <h1>Autenticação de documentos</h1>
 
-// Listener do Formulário
-authForm.addEventListener('submit', function(event) {
-    event.preventDefault();
+            <form id="authForm">
+                <div class="input-group">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" required placeholder="Ex: 4165d36034">
+                </div>
 
-    // Captura apenas o Código (Data/Hora são apenas visuais para o usuário)
-    const codigo = document.getElementById('codigo').value.trim();
-    
-    // Inicia o processamento
-    buscarBtn.disabled = true;
-    messageElement.textContent = 'Buscando...';
-    messageElement.style.color = 'black';
-
-    // 1. Chamada ao Cloudflare Worker (API)
-    const apiCallUrl = `${WORKER_URL}?code=${codigo}`;
-
-    fetch(apiCallUrl)
-        .then(response => {
-            if (response.ok && response.redirected) {
-                // SUCESSO na autenticação (o Worker encontrou o código)
-
-                // Exibe a mensagem de sucesso (verde)
-                messageElement.style.color = 'green';
-                messageElement.textContent = 'Documento Autenticado!';
+                <div class="input-group">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" required placeholder="Ex: 24/11/2025">
+                </div>
                 
-                // Atraso de 2 segundos antes de liberar o download
-                setTimeout(() => {
-                    // Abre o PDF em uma nova aba
-                    window.open(response.url, '_blank'); 
-                    messageElement.textContent = 'Documento Autenticado! Download liberado.';
-                    buscarBtn.disabled = false; // Habilita o botão
-                }, 2000); // 2000 milissegundos = 2 segundos
+                <div class="input-group">
+                    <label for="hora">Hora:</label>
+                    <input type="text" id="hora" name="hora" required placeholder="Ex: 15:28:14">
+                </div>
 
-            } else {
-                // FALHA na autenticação (código inválido ou erro do Worker)
-                messageElement.style.color = 'red';
-                // Mensagem de erro padrão conforme solicitado
-                messageElement.textContent = 'Arquivo não encontrado, verifique as informações e tente novamente!';
+                <button type="submit" class="btn-buscar" id="buscar-btn">Buscar</button>
                 
-                buscarBtn.disabled = false; // Habilita o botão
-            }
-        })
-        .catch(error => {
-            // ERRO de Conexão com o servidor
-            messageElement.style.color = 'red';
-            messageElement.textContent = 'Erro de conexão com o servidor de autenticação.';
-            console.error('Fetch error:', error);
-            
-            buscarBtn.disabled = false; // Habilita o botão
-        });
-});
+                <p id="message" class="message"></p> 
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <hr>
+        UFAM - Universidade Federal do Amazonas
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
