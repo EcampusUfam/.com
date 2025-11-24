@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eCampus - Autenticação de Documentos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="e">e</span>campus
+            </div>
+            <div class="ufam-logo">
+                <img src="ufam_logo_placeholder.png" alt="UFAM" width="50">
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <h1>Autenticação de documentos</h1>
+
+            <form id="authForm">
+                <div class="input-group">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" placeholder="DD/MM/AAAA" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="hora">Hora:</label>
+                    <input type="text" id="hora" name="hora" placeholder="HH:MM" required>
+                </div>
+
+                <div class="input-group captcha-group">
+                    <label for="validation_code">Código de Validação:</label>
+                    <div class="captcha-box">
+                        <div class="captcha-simulado">9 zj ic g</div>
+                        <input type="text" id="validation_code" name="validation_code" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-buscar">Buscar</button>
+            </form>
+
+            <p id="message" class="message"></p>
+        </div>
+    </main>
+
+    <footer>
+        <hr>
+        © Coordenação de Sistemas - CTIC - UFAM
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

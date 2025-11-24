@@ -1,0 +1,141 @@
+/* Configurações básicas */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: white;
+    padding: 10px 0;
+    border-bottom: 2px solid #007bff; /* Borda azul clara */
+}
+
+.header-content {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+.e {
+    color: #28a745; /* Verde do eCampus */
+    font-size: 30px;
+}
+
+/* Container principal de autenticação */
+main {
+    padding: 20px 0;
+}
+
+.auth-container {
+    background-color: white;
+    width: 90%;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px 40px;
+    border: 1px solid #c9e2f3; /* Borda azul clara da caixa */
+    border-radius: 4px;
+}
+
+.auth-container h1 {
+    color: #007bff;
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #c9e2f3;
+}
+
+/* Estilo dos campos de formulário */
+.input-group {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.input-group label {
+    width: 180px; /* Alinhamento das labels */
+    font-weight: bold;
+    text-align: right;
+    padding-right: 15px;
+}
+
+.input-group input[type="text"] {
+    flex-grow: 1;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    max-width: 250px;
+}
+
+/* Estilo do CAPTCHA */
+.captcha-group {
+    align-items: flex-start;
+}
+
+.captcha-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.captcha-simulado {
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    font-family: monospace;
+    font-size: 20px;
+    font-style: italic;
+    letter-spacing: 2px;
+    user-select: none;
+    max-width: 250px;
+    text-align: center;
+}
+
+/* Estilo do botão */
+.btn-buscar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 180px; /* Alinha com os campos de input */
+}
+
+.btn-buscar:hover {
+    background-color: #0056b3;
+}
+
+/* Mensagens de feedback */
+.message {
+    margin-top: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 12px;
+    color: #666;
+    margin-top: 20px;
+}
+
+footer hr {
+    border: 0;
+    height: 1px;
+    background-color: #c9e2f3;
+    margin-bottom: 10px;
+}
