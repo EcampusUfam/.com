@@ -5,21 +5,61 @@ const WORKER_URL = 'https://api.autenticacaohistoricoufam.com.br';
 const messageElement = document.getElementById('message');
 const authForm = document.getElementById('authForm');
 const buscarBtn = document.getElementById('buscar-btn');
+const inputData = document.getElementById('data');
+const inputHora = document.getElementById('hora');
 
-// Listener do Formulário
+// --- Funções de Máscara (Formatação Automática) ---
+
+// Máscara para Data (DD/MM/AAAA)
+function maskDate(value) {
+    // Remove tudo que não for dígito
+    value = value.replace(/\D/g, "");
+    // Adiciona a barra (/) após o 2º e 4º dígito
+    value = value.replace(/(\d{2})(\d)/, "$1/$2");
+    value = value.replace(/(\d{2})\/(\d{2})(\d)/, "$1/$2/$3");
+    // Limita o tamanho para 10 caracteres (DD/MM/AAAA)
+    if (value.length > 10) {
+        value = value.substring(0, 10);
+    }
+    return value;
+}
+
+// Máscara para Hora (HH:MM:SS)
+function maskTime(value) {
+    // Remove tudo que não for dígito
+    value = value.replace(/\D/g, "");
+    // Adiciona os dois pontos (:) após o 2º e 4º dígito
+    value = value.replace(/(\d{2})(\d)/, "$1:$2");
+    value = value.replace(/(\d{2}):(\d{2})(\d)/, "$1:$2:$3");
+    // Limita o tamanho para 8 caracteres (HH:MM:SS)
+    if (value.length > 8) {
+        value = value.substring(0, 8);
+    }
+    return value;
+}
+
+// Aplica as máscaras aos eventos de input
+inputData.addEventListener('input', function(e) {
+    e.target.value = maskDate(e.target.value);
+});
+
+inputHora.addEventListener('input', function(e) {
+    e.target.value = maskTime(e.target.value);
+});
+
+// --- Lógica de Autenticação ---
+
 authForm.addEventListener('submit', function(event) {
     event.preventDefault();
 
-    // Captura o Código. Os campos Data e Hora são apenas visuais e a lógica de validação deles fica no back-end.
+    // Captura o Código. Campos Data e Hora são formatados e obrigatórios (via HTML 'required').
     const codigo = document.getElementById('codigo').value.trim();
     
-    // Inicia o processamento
-    buscarBtn.disabled = true; // Desabilita o botão para evitar cliques duplos
+    buscarBtn.disabled = true;
     messageElement.textContent = 'Buscando...';
     messageElement.style.color = 'black';
 
-    // 1. Chamada ao Cloudflare Worker (API)
-    // O Worker verifica a existência do código e faz o redirecionamento 302.
+    // Chamada ao Cloudflare Worker (API)
     const apiCallUrl = `${WORKER_URL}?code=${codigo}`;
 
     fetch(apiCallUrl)
@@ -27,33 +67,30 @@ authForm.addEventListener('submit', function(event) {
             if (response.ok && response.redirected) {
                 // SUCESSO: O Worker encontrou o código.
 
-                // Exibe a mensagem de sucesso (verde)
                 messageElement.style.color = 'green';
                 messageElement.textContent = 'Documento Autenticado!';
                 
                 // Atraso de 2 segundos antes de liberar o download
                 setTimeout(() => {
-                    // Abre o PDF em uma nova aba
                     window.open(response.url, '_blank'); 
                     messageElement.textContent = 'Documento Autenticado! Download liberado.';
-                    buscarBtn.disabled = false; // Habilita o botão
-                }, 2000); // 2000 milissegundos = 2 segundos
+                    buscarBtn.disabled = false;
+                }, 2000); 
 
             } else {
                 // FALHA: Código inválido, não encontrado ou erro do Worker.
                 messageElement.style.color = 'red';
-                // Mensagem de erro padrão conforme solicitado
                 messageElement.textContent = 'Arquivo não encontrado, verifique as informações e tente novamente!';
                 
-                buscarBtn.disabled = false; // Habilita o botão
+                buscarBtn.disabled = false;
             }
         })
         .catch(error => {
-            // ERRO de Conexão: Problema de rede, CORS ou DNS do Worker.
+            // ERRO de Conexão: O Worker não está acessível.
             messageElement.style.color = 'red';
             messageElement.textContent = 'Erro de conexão com o servidor de autenticação.';
             console.error('Fetch error:', error);
             
-            buscarBtn.disabled = false; // Habilita o botão
+            buscarBtn.disabled = false;
         });
 });
