@@ -6,8 +6,8 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
     const messageElement = document.getElementById('message');
     
     // Configurações
-    // Sua URL do Worker, usando o nome 'auth-api' que definimos.
-    const WORKER_URL = 'https://auth-api.gabriel-navarro-rn7.workers.dev'; 
+    // URL do seu Worker (já substituída!)
+    const WORKER_URL = 'https://autenticacaoufam.gabriel-navarro-rn7.workers.dev'; 
     const captchaText = "9zjicg"; // O texto que está na imagem simulada (sem espaços)
 
     messageElement.textContent = 'Buscando...';
@@ -20,8 +20,6 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
     }
 
     // 2. Chamada ao Cloudflare Worker
-    // Construímos a URL para o Worker, passando o código como parâmetro
-    // Ex: https://auth-api.gabriel-navarro-rn7.workers.dev?code=75fbf6cbf6
     const apiCallUrl = `${WORKER_URL}?code=${codigo}`;
 
     fetch(apiCallUrl)
@@ -38,7 +36,6 @@ document.getElementById('authForm').addEventListener('submit', function(event) {
                 // Falha: O Worker retornou um erro (código inválido ou erro interno).
                 response.text().then(text => {
                     messageElement.style.color = 'red';
-                    // Mostra a mensagem de erro que veio do Worker (se o código não for encontrado)
                     messageElement.textContent = text || 'Falha na autenticação. Código ou dados inválidos.';
                 });
             } else {
